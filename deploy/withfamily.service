@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve withfamily
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/home/youruser/withfamily
+EnvironmentFile=/home/youruser/withfamily/.env
+ExecStart=/home/youruser/venv/bin/gunicorn --workers 3 --bind unix:/run/withfamily.sock myproject.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
