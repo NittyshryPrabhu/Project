@@ -1,0 +1,34 @@
+{% extends 'content/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow">
+                {% if item.thumbnail %}
+                <img src="{{ item.thumbnail.url }}" class="card-img-top" alt="{{ item.title }}" style="height: 320px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h3 class="card-title">{{ item.title }}</h3>
+                    <p class="card-text">{{ item.description }}</p>
+
+                    {% if video_src %}
+                        {% if item.video_file %}
+                        <video controls class="w-100" style="max-height: 600px;">
+                            <source src="{{ video_src }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        {% else %}
+                        <div class="ratio ratio-16x9">
+                            <iframe src="{{ video_src }}" title="{{ item.title }}" allowfullscreen></iframe>
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-warning">No video available for this item.</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

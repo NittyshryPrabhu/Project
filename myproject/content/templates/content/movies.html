@@ -1,0 +1,39 @@
+{% extends 'content/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-primary"><i class="fas fa-film"></i> Movies</h2>
+
+    <div class="row">
+        {% for movie in movies %}
+        <div class="col-md-3 col-sm-6 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="position-relative">
+                    {% if movie.thumbnail %}
+                        <a href="{{ movie.get_absolute_url }}"><img src="{{ movie.thumbnail.url }}" class="card-img-top" alt="{{ movie.title }}" style="height: 180px; object-fit: cover;"></a>
+                    {% else %}
+                        <a href="{{ movie.get_absolute_url }}"><div class="bg-gradient rounded-top text-white d-flex align-items-center justify-content-center" style="height:180px; background: linear-gradient(135deg,#6a11cb 0%,#2575fc 100%);"> <h5 class="m-0">{{ movie.title }}</h5></div></a>
+                    {% endif %}
+                    <span class="badge bg-warning text-dark position-absolute" style="top:10px; left:10px;">Movie</span>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title"><a class="text-dark" href="{{ movie.get_absolute_url }}">{{ movie.title }}</a></h6>
+                    <p class="card-text small text-muted">{{ movie.description|truncatewords:15 }}</p>
+                </div>
+                <div class="card-footer bg-white border-0">
+                    {% if user.is_authenticated %}
+                        <a href="{{ movie.get_absolute_url }}" class="btn btn-gradient btn-primary w-100">Watch</a>
+                    {% else %}
+                        <a href="{% url 'login' %}?next={{ movie.get_absolute_url }}" class="btn btn-outline-primary w-100">Login to Watch</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No movies available at the moment.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

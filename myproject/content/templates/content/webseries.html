@@ -1,0 +1,38 @@
+{% extends 'content/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-primary"><i class="fas fa-tv"></i> Web Series</h2>
+    <div class="row">
+        {% for item in webseries %}
+        <div class="col-md-3 col-sm-6 mb-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="position-relative">
+                    {% if item.thumbnail %}
+                        <a href="{{ item.get_absolute_url }}"><img src="{{ item.thumbnail.url }}" class="card-img-top" alt="{{ item.title }}" style="height: 180px; object-fit: cover;"></a>
+                    {% else %}
+                        <a href="{{ item.get_absolute_url }}"><div class="bg-gradient rounded-top text-white d-flex align-items-center justify-content-center" style="height:180px; background: linear-gradient(135deg,#ff7e5f 0%,#feb47b 100%);"> <h5 class="m-0">{{ item.title }}</h5></div></a>
+                    {% endif %}
+                    <span class="badge bg-info text-dark position-absolute" style="top:10px; left:10px;">Series</span>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title"><a class="text-dark" href="{{ item.get_absolute_url }}">{{ item.title }}</a></h6>
+                    <p class="card-text small text-muted">{{ item.description|truncatewords:15 }}</p>
+                </div>
+                <div class="card-footer bg-white border-0">
+                    {% if user.is_authenticated %}
+                        <a href="{{ item.get_absolute_url }}" class="btn btn-primary w-100">Watch</a>
+                    {% else %}
+                        <a href="{% url 'login' %}?next={{ item.get_absolute_url }}" class="btn btn-outline-primary w-100">Login to Watch</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No series available at the moment.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

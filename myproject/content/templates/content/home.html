@@ -1,0 +1,52 @@
+{% extends 'content/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 mb-4">Welcome to Content Platform</h1>
+            <p class="lead mb-4">Discover amazing movies, web series, short films, and social content</p>
+            
+            <div class="row mt-5">
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body text-center">
+                            <i class="fas fa-film fa-3x text-primary mb-3"></i>
+                            <h5>Movies</h5>
+                            <a href="{% url 'movies' %}" class="btn btn-primary mt-2">Browse Movies</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body text-center">
+                            <i class="fas fa-tv fa-3x text-primary mb-3"></i>
+                            <h5>Web Series</h5>
+                            <a href="{% url 'webseries' %}" class="btn btn-primary mt-2">Browse Series</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body text-center">
+                            <i class="fas fa-video fa-3x text-primary mb-3"></i>
+                            <h5>Short Films</h5>
+                            <a href="{% url 'shortfilm' %}" class="btn btn-primary mt-2">Browse Films</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body text-center">
+                            <i class="fas fa-share-alt fa-3x text-primary mb-3"></i>
+                            <h5>Social Content</h5>
+                            <a href="{% url 'socialcontent' %}" class="btn btn-primary mt-2">Browse Content</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {# Latest section removed as requested. Featured content remains accessible from category pages. #}
+        </div>
+    </div>
+</div>
+{% endblock %}
