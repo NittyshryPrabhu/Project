@@ -27,6 +27,6 @@ def socialcontent_view(request):
 @login_required
 def watch_view(request, slug):
     item = get_object_or_404(Content, slug=slug)
-    # prefer local file if available, otherwise use external URL
-    video_src = item.video_file.url if item.video_file else item.video_url
+    # use Content.video_src property which looks in MEDIA, external URL, then project video/
+    video_src = item.video_src
     return render(request, 'content/watch.html', {'item': item, 'video_src': video_src})

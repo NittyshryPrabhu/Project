@@ -46,6 +46,39 @@ class Content(models.Model):
     def get_absolute_url(self):
         return reverse('content_watch', kwargs={'slug': self.slug})
 
+    @property
+    def video_src(self):
+        """Return the best available URL for the content's video.
+
+        Order:
+        1. uploaded FileField (MEDIA_URL)
+        2. external video_url (assumed embeddable)
+        3. project-level video folder (BASE_DIR / 'video') matching slug or title filename
+        """
+        # 1. uploaded file
+        if self.video_file:
+            try:
+                return self.video_file.url
+            except Exception:
+                pass
+
+        # 2. external URL
+        if self.video_url:
+            return self.video_url
+
+        # 3. try project-level video folder (use slug with .mp4)
+        # we avoid importing settings at module import time in case of circular imports
+        from django.conf import settings
+        import os
+        name_candidates = [f"{self.slug}.mp4", f"{self.slug}.webm", f"{self.title}.mp4"]
+        for name in name_candidates:
+            path = os.path.join(settings.BASE_DIR, 'video', name)
+            if os.path.exists(path):
+                # build URL relative to VIDEO_URL
+                return settings.VIDEO_URL + name
+
+        return None
+
 
 class SiteConfig(models.Model):
     """Simple single-row site configuration for name and logo."""
